@@ -9,7 +9,7 @@ Data is taken from AirRNB.
 
 I saw Lodgify is searching for machine learning/deep learning/AI engineer and
 
-as a fast-growing company leading the vacation rental industry with our innovative 
+as a fast-growing company leading the vacation rental industry with innovative 
 
 software... I thought to prepare in the morning short program which will calculate
 
