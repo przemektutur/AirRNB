@@ -19,6 +19,10 @@ so program works, predicts, but for sure code should be cleared and change into 
 
 ### IF YOU WOULD LIKE TO HAVE IT MADE AS OOP - PLEASE LET ME KNOW
 
+Check 2407-change-into-object-oriented-paradigm branch (I've started to implement
+
+object oriented programming paradigm).
+
 ## SCREENSHOTS
 
 XGBRegressor for Barcelona
