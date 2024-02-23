@@ -149,7 +149,7 @@ def data_plot(data0, data1, data2, title0, title1, title2):
     cbar2.set_label('Price')
 
     scatter3 = ax3.scatter(data0['longitude'], data0['latitude'], c=data0['price'], cmap='jet', vmax=200, vmin=25)
-    ax3.set_title(title2)
+    ax3.set_title(title0)
     ax3.set_xlabel('Longitude')
     ax3.set_ylabel('Latitude')
     cbar3 = plt.colorbar(scatter3, ax=ax3)
