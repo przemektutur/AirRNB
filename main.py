@@ -40,7 +40,7 @@ def preprocess_data(dataL):
         'has_availability',
         'instant_bookable']].head(3)
     mapping_func = {'t': 1, 'f': 0}
-    kolumnytf = ['host_is_superhost', 
+    kolumnytf = ['host_is_superhost',
         'host_has_profile_pic',
         'host_identity_verified',
         'has_availability',
@@ -60,10 +60,10 @@ def preprocess_data(dataL):
         round(dataL['host_acceptance_rate'].mean(), 2), inplace=True
     )
     kolumnydat = [
-        'last_scraped', 
-        'host_since', 
-        'calendar_last_scraped', 
-        'first_review', 
+        'last_scraped',
+        'host_since',
+        'calendar_last_scraped',
+        'first_review',
         'last_review'
     ]
     dataL[kolumnydat] = dataL[kolumnydat].apply(pd.to_datetime)
@@ -78,7 +78,7 @@ def preprocess_data(dataL):
         include='number'
     ).isna().sum().sort_values(ascending=False) / len(dataL) * 100
     dataH = dataL[(dataL['reviews_per_month'] < 1.5)]['reviews_per_month']
-    dataH = dataL[(dataL['reviews_per_month'] < 50) & 
+    dataH = dataL[(dataL['reviews_per_month'] < 50) &
             (dataL['reviews_per_month'] > 10)]['reviews_per_month']
     filtered = dataL[~np.isnan(
         dataL['reviews_per_month']
@@ -94,10 +94,10 @@ def preprocess_data(dataL):
     dataL['beds'].isna().sum()
     rev = [
         'review_scores_value',
-        'review_scores_location', 
+        'review_scores_location',
         'review_scores_checkin',
         'review_scores_communication',
-        'review_scores_accuracy', 
+        'review_scores_accuracy',
         'review_scores_cleanliness'
     ]
     dataL[rev].agg(['median', 'mean']).T
@@ -111,30 +111,30 @@ def preprocess_data(dataL):
     dataL['neighbourhood_cleansed_encoded'] = label_encoder.fit_transform(
         dataL['neighbourhood_cleansed']
     )
-    all_num_feats = [x for x in dataL.dtypes[(dataL.dtypes != 'object') & 
-        (dataL.dtypes != 'datetime64[ns]')].index 
+    all_num_feats = [x for x in dataL.dtypes[(dataL.dtypes != 'object') &
+        (dataL.dtypes != 'datetime64[ns]')].index
         if not ('id' in x) and not ('price' in x)]
     pd.set_option('display.float_format', lambda x: '%.2f' % x)
     dataL = dataL[dataL['maximum_nights'] <= np.percentile(
-        dataL['maximum_nights'], 
+        dataL['maximum_nights'],
         95
     )]
     best_featuresLX = [
-        'accommodates', 
+        'accommodates',
         'room_type_encoded',
         'latitude',
         'longitude',
         'bathrooms',
-        'review_scores_rating', 
-        'availability_365', 
-        'has_availability', 
+        'review_scores_rating',
+        'availability_365',
+        'has_availability',
         'beds',
-        'neighbourhood_cleansed_encoded', 
-        'availability_30', 
+        'neighbourhood_cleansed_encoded',
+        'availability_30',
         'review_scores_cleanliness',
-        'reviews_per_month', 
+        'reviews_per_month',
         'calculated_host_listings_count_entire_homes',
-        'number_of_reviews_ltm', 
+        'number_of_reviews_ltm',
         'availability_90'
     ]
 
@@ -163,7 +163,7 @@ def on_predict_button_click():
     long = ''
     if coordinates:
         input_values = {
-            'latitude': coordinates[0], 
+            'latitude': coordinates[0],
             'longitude': coordinates[1]
         }
         lat = coordinates[0]
@@ -182,21 +182,21 @@ def on_predict_button_click():
     input_df = pd.DataFrame([input_values])
 
     best_features = [
-        'latitude', 
-        'longitude', 
-        'accommodates', 
-        'room_type_encoded', 
+        'latitude',
+        'longitude',
+        'accommodates',
+        'room_type_encoded',
         'bathrooms',
-        'review_scores_rating', 
-        'availability_365', 
-        'has_availability', 
+        'review_scores_rating',
+        'availability_365',
+        'has_availability',
         'beds',
-        'neighbourhood_cleansed_encoded', 
-        'availability_30', 
+        'neighbourhood_cleansed_encoded',
+        'availability_30',
         'review_scores_cleanliness',
-        'reviews_per_month', 
+        'reviews_per_month',
         'calculated_host_listings_count_entire_homes',
-        'number_of_reviews_ltm', 
+        'number_of_reviews_ltm',
         'availability_90'
     ]
 
@@ -216,11 +216,11 @@ def data_plot(data0, data1, data2, title0, title1, title2):
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 4))
 
     scatter1 = ax1.scatter(
-        data1['longitude'], 
-        data1['latitude'], 
-        c=data1['price'], 
-        cmap='jet', 
-        vmax=200, 
+        data1['longitude'],
+        data1['latitude'],
+        c=data1['price'],
+        cmap='jet',
+        vmax=200,
         vmin=25
     )
     ax1.set_title(title1)
@@ -230,11 +230,11 @@ def data_plot(data0, data1, data2, title0, title1, title2):
     cbar1.set_label('Price')
 
     scatter2 = ax2.scatter(
-        data2['longitude'], 
+        data2['longitude'],
         data2['latitude'],
-        c=data2['price'], 
-        cmap='jet', 
-        vmax=200, 
+        c=data2['price'],
+        cmap='jet',
+        vmax=200,
         vmin=25
     )
     ax2.set_title(title2)
@@ -246,9 +246,9 @@ def data_plot(data0, data1, data2, title0, title1, title2):
     scatter3 = ax3.scatter(
         data0['longitude'],
         data0['latitude'],
-        c=data0['price'], 
-        cmap='jet', 
-        vmax=200, 
+        c=data0['price'],
+        cmap='jet',
+        vmax=200,
         vmin=25
     )
     ax3.set_title(title0)
@@ -335,21 +335,21 @@ dataT = preprocess_data(dataT)
 
 # Extract features and target variable
 best_featuresLX = [
-    'accommodates', 
-    'room_type_encoded', 
-    'latitude', 
-    'longitude', 
+    'accommodates',
+    'room_type_encoded',
+    'latitude',
+    'longitude',
     'bathrooms',
-    'review_scores_rating', 
-    'availability_365', 
-    'has_availability', 
+    'review_scores_rating',
+    'availability_365',
+    'has_availability',
     'beds',
-    'neighbourhood_cleansed_encoded', 
-    'availability_30', 
+    'neighbourhood_cleansed_encoded',
+    'availability_30',
     'review_scores_cleanliness',
-    'reviews_per_month', 
+    'reviews_per_month',
     'calculated_host_listings_count_entire_homes',
-    'number_of_reviews_ltm', 
+    'number_of_reviews_ltm',
     'availability_90'
 ]
 
@@ -358,8 +358,8 @@ X = dataL_subset.loc[:, best_featuresLX]
 y = np.array(dataL_subset['price'])
 X_train, X_test, y_train, y_test = train_test_split(
     X,
-    y, 
-    test_size=0.2, 
+    y,
+    test_size=0.2,
     random_state=42,
 )
 
@@ -385,16 +385,16 @@ input_entries["address"] = entry
 
 # Labels for Features with Mean Values
 mean_features = [
-    'review_scores_rating', 
-    'availability_365', 
-    'has_availability', 
+    'review_scores_rating',
+    'availability_365',
+    'has_availability',
     'beds',
-    'neighbourhood_cleansed_encoded', 
-    'availability_30', 
+    'neighbourhood_cleansed_encoded',
+    'availability_30',
     'review_scores_cleanliness',
-    'reviews_per_month', 
+    'reviews_per_month',
     'calculated_host_listings_count_entire_homes',
-    'number_of_reviews_ltm', 
+    'number_of_reviews_ltm',
     'availability_90'
 ]
 
@@ -403,8 +403,8 @@ for feature in mean_features:
 
 # Prediction Button
 predict_button = tk.Button(
-    root, 
-    text="Predict Price", 
+    root,
+    text="Predict Price",
     command=on_predict_button_click
 )
 predict_button.pack(pady=10)
