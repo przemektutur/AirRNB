@@ -171,9 +171,25 @@ class GUI:
         self.prediction_label.config(text=text)
 
 
-    def on_predict_button_click(self):
-        # Event handler for predict button click
-        pass
+    def on_predict_button_click(self) -> None:
+        """
+        Handles the event triggered by clicking the 'Predict Price' button.
+        This method validates the inputs and calls the predict_price method
+        to perform the prediction.
+        """
+        is_valid_input: bool = True
+        for feature, entry in self.input_entries.items():
+            if not entry.get().strip():
+                msg = f"{feature.capitalize()} is required."
+                tk.messagebox.showerror("Input Error", msh)
+                is_valid_input = False
+                break
+        if is_valid_input:
+            try:
+                self.predict_price()
+            except Exception as e:
+                # Handle any exceptions that occur during prediction
+                tk.messagebox.showerror("Prediction Error", str(e))
 
     def show_about(self) -> None:
         """
