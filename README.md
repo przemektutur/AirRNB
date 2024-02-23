@@ -17,7 +17,11 @@ rental prices. I didn't have much time before getting kids to kindergarten...
 
 so program works, predicts, but for sure code should be cleared and change into OOP :)
 
-### IF YOU WOULD LIKE TO HAVE IT MADE AS OOP - PLEASE LET ME KNOW
+### IF YOU WOULD LIKE TO HAVE IT MADE AS OOP
+
+STARTED TO WORK ON OBJECT ORIENTED APPROACH TO APP ("check out my melody" ;)):
+
+branch - 2407-change-into-object-oriented-paradigm
 
 ## SCREENSHOTS
 
