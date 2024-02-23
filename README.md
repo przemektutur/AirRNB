@@ -67,7 +67,7 @@ and `tkinter`. You can install these using `pip`, Python's package installer.
 Run the following command to install the required libraries:
 
 ```bash
-pip3 install pandas numpy xgboost tk scikit-learn geopy 
+pip3 install pandas numpy xgboost tk scikit-learn geopy matplotlib 
 ```
 
 Note: `tkinter` might already be installed with Python. If not, you can 

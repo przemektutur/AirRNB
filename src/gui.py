@@ -5,6 +5,7 @@ from tkinter import messagebox
 import pandas as pd
 import numpy as np
 from xgboost import XGBRegressor
+import matplotlib.pyplot as plt
 
 from .data_preprocessor import DataPreprocessor
 from .model_trainer import ModelTrainer
@@ -41,6 +42,7 @@ class GUI:
         # Initiate methods
         self.setup_ui()
         self.preprocess_data()
+        self.plot_data()
 
     def setup_ui(self) -> None:
         """
@@ -112,7 +114,7 @@ class GUI:
             command=self.on_predict_button_click
         )
         predict_button.pack(pady=10)
-
+        
         # Prediction Result Label
         self.prediction_label: tk.Label = tk.Label(self.root, text="")
         self.prediction_label.pack(pady=10)
@@ -318,6 +320,30 @@ class GUI:
             "to get the estimated rental price."
         )
         messagebox.showinfo("About", about_text)
+
+    def plot_data(self):
+        cities = list(self.preprocessed_data.keys())[:3]
+        if len(cities) == 3:
+            data = [self.preprocessed_data[city] for city in cities]
+            titles = [f"Dane dla {city}" for city in cities]
+
+            fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+            for ax, d, title in zip(axs, data, titles):
+                scatter = ax.scatter(
+                    d['longitude'],
+                    d['latitude'],
+                    c=d['price'],
+                    cmap='viridis',
+                    vmax=200,
+                    vmin=20
+                )
+                ax.set_title(title)
+                ax.set_xlabel('Długość geograficzna')
+                ax.set_ylabel('Szerokość geograficzna')
+                plt.colorbar(scatter, ax=ax, label='Cena')
+            plt.tight_layout()
+            plt.show()
+
 
     def show_team(self) -> None:
         messagebox.showinfo("Team:", "Przemyslaw Tutur")
