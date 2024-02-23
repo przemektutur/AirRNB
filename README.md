@@ -128,6 +128,10 @@ the virtual environment rather than the global ones.
 
 ## SCREENSHOTS
 
+XGBRegressor Linux TK
+
+![XGBRegressor for Linux](pictures/ML004.png)
+
 XGBRegressor for Barcelona
 
 ![XGBRegressor for Barcelona](pictures/ML001.png)
