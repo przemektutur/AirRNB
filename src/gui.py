@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
+import numpy as np
 from xgboost import XGBRegressor
 
 from .data_preprocessor import DataPreprocessor
@@ -134,16 +135,44 @@ class GUI:
         # Storing the trained model for later use
         self.models[city] = model
 
-    def predict_price(self):
-        # Use Predictor class to predict price
-        pass
+    def predict_price(self) -> None:
+        """
+        Predicts the rental price based on user inputs and the selected city.
+        """
+        city: str = self.selected_data_var.get()
+        if city not in self.models:
+            messagebox.showerror(
+                "Error",
+                "Model for the city is not available."
+            )
+            return
+        
+        # Gather input features from the GUI
+        input_features: dict = {
+            feature: entry.get()
+            for feature, entry in self.input_entries.items()
+        }
+        
+        # Convert input features to DataFrame for prediction
+        try:
+            input_df: pd.DataFrame = pd.DataFrame([input_features])
+            input_df = input_df.apply(pd.to_numeric, errors='coerce')
+        except Exception as e:
+            messagebox.showerror("Error", f"Invalid input: {e}")
+            return
+        
+        # Use the Predictor class for prediction
+        model = self.models[city]
+        predictor: Predictor = Predictor(model)
+        prediction: np.ndarray = predictor.predict(input_df)
+        
+        predicted_price: float = prediction[0] if prediction.size > 0 else 0
+        text = (f"Predicted Price: ${predicted_price:.2f}")
+        self.prediction_label.config(text=text)
+
 
     def on_predict_button_click(self):
         # Event handler for predict button click
-        pass
-
-    def show_about(self):
-        # Show about dialog
         pass
 
     def show_about(self) -> None:
