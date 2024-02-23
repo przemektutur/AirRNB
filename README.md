@@ -10,42 +10,31 @@ Three cities were added for prediction: London, Athens and Barcelona.
 
 Data is taken from AirRNB.
 
-### SORRY FOR NOT KEEPING OOP AND SPAGHETTI CODE - FAST CODING 
-
-### IN THE MORNING;)
-
 I saw Lodgify is searching for machine learning/deep learning/AI engineer and
 
 as a fast-growing company leading the vacation rental industry with innovative 
 
 software... I thought to prepare in the morning short program which will 
 
-calculate rental prices. I didn't have much time before push kids to the
+calculate rental prices using ML. I didn't have much time before push kids to
 
-kindergarten... ;)
+the kindergarten... ;)
 
-so program works, predicts, but for sure code should be cleared and change into
+I have checked couple machine learning alghoritms and used XGBoost (regression)
 
-OOP :)
+Check 2407-change-into-object-oriented-paradigm branch (you will see git log
 
-### IF YOU WOULD LIKE TO HAVE IT MADE AS OOP
+- how I've changed script into object oriented program).
 
-STARTED TO WORK ON OBJECT ORIENTED APPROACH TO APP ("check out my melody" ;)):
-
-branch - 2407-change-into-object-oriented-paradigm
-
-Check 2407-change-into-object-oriented-paradigm branch (I've started to implement
-
-object oriented programming paradigm).
-
+(**All the effort took about 5 hours**)
 
 ### 1. Check for Python Installation
 
-Ensure you have Python installed on your Linux system. Most Linux distributions
+Ensure you have Python installed on your system. Most Linux distributions
 
 come with Python pre-installed. You can check the installed Python version by 
 
-running:
+running in Linux:
 
 ```bash
 python3 --version
@@ -147,3 +136,22 @@ XGBRegressor for London
 Help
 
 ![Help](pictures/ML003.png)
+
+
+## FUTURE UPDATES
+
+- add multithreading - I hate slowness of this app (unfortunatelly 
+
+  data is loaded directly from website and it is huge csv for every
+
+  city :/ - data transformation takes some time, but we will handle!) 
+
+- unit tests and test cases for application - oh, no.. seems I will
+
+  be busy as the devil in the hell ;)
+
+- add other Machine Learning algorithms (yeah! - this is what we would
+
+  like to have possibility to choose and check how good each alghoritm
+
+  is for the same city)
