@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import pandas as pd
+from xgboost import XGBRegressor
+
 from .data_preprocessor import DataPreprocessor
 from .model_trainer import ModelTrainer
 from .predictor import Predictor
@@ -91,11 +93,46 @@ class GUI:
             # Train model for each city
             self.train_model(city)
 
-    def train_model(self, city):
-        data = self.preprocessed_data[city]
-        # Extract features and target variable, then train model
-        # Code here to train the model using ModelTrainer
-        pass
+    def train_model(self, city: str) -> None:
+        """
+        Trains a model for a specific city using preprocessed data.
+
+        Parameters
+        ----------
+        city : str
+            The name of the city for which to train the model.
+        """
+        # Extract the preprocessed dataset for the specified city
+        data: pd.DataFrame = self.preprocessed_data[city]
+        
+        features: list[str] = [
+            'latitude',
+            'longitude',
+            'accommodates',
+            'room_type_encoded',
+            'bathrooms',
+            'review_scores_rating',
+            'availability_365',
+            'has_availability',
+            'beds',
+            'neighbourhood_cleansed_encoded',
+            'availability_30',
+            'review_scores_cleanliness',
+            'reviews_per_month',
+            'calculated_host_listings_count_entire_homes',
+            'number_of_reviews_ltm',
+            'availability_90'
+        ]  
+        target: str = 'price'  
+        # Splitting the data into features (X) and target (y)
+        X: pd.DataFrame = data[features]
+        y: pd.Series = data[target]
+        # Initializing the ModelTrainer with the dataset
+        trainer: ModelTrainer = ModelTrainer(X, y)
+        # Training the model
+        model: XGBRegressor = trainer.train_model()
+        # Storing the trained model for later use
+        self.models[city] = model
 
     def predict_price(self):
         # Use Predictor class to predict price
