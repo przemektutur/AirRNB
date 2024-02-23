@@ -1,5 +1,6 @@
 """Data Preprocessror class."""
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 
@@ -47,7 +48,10 @@ class DataPreprocessor:
         dataL['bathrooms'] = np.where(
             dataL['bathrooms_text'] == 'Half-bath', 0.5, dataL['bathrooms']
         )
-        dataL['bathrooms'].fillna(dataL['bathrooms'].mode()[0], inplace=True)
+        # dataL['bathrooms'].fillna(dataL['bathrooms'].mode()[0], inplace=True)
+        dataL['bathrooms'] = dataL['bathrooms'].fillna(
+            dataL['bathrooms'].mode()[0]
+        )
 
         boolean_columns = [
             'host_is_superhost', 

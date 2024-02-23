@@ -160,8 +160,12 @@ class GUI:
         None
         """
         # Extract the preprocessed dataset for the specified city
-        data: pd.DataFrame = self.preprocessed_data[city]
-        
+        data: pd.DataFrame = self.preprocessed_data[city] 
+
+        data['has_availability'] = data['has_availability'].map(
+            {True: 1, False: 0}
+        )
+
         features: list[str] = [
             'latitude',
             'longitude',
@@ -181,6 +185,10 @@ class GUI:
             'availability_90'
         ]  
         target: str = 'price'  
+
+        data[target] = data[target].replace([np.inf, -np.inf], np.nan)
+        data.dropna(subset=[target], inplace=True)
+
         # Splitting the data into features (X) and target (y)
         X: pd.DataFrame = data[features]
         y: pd.Series = data[target]
@@ -195,49 +203,63 @@ class GUI:
         """
         Predicts the rental price based on user inputs and the selected city.
 
-        Gathers input features from the GUI, converts them to a DataFrame,
-        and uses the trained model for the selected city to make a prediction.
-        Displays the predicted price in the GUI.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        None
+        Gathers input features from the GUI, converts them to the correct format,
+        and ensures that the feature order matches exactly what was used during training.
         """
-        city: str = self.selected_data_var.get()
+        city = self.selected_data_var.get()
         if city not in self.models:
-            messagebox.showerror(
-                "Error",
-                "Model for the city is not available."
-            )
+            messagebox.showerror("Error", "Model for the city is not available.")
             return
-        
-        # Gather input features from the GUI
-        input_features: dict = {
-            feature: entry.get()
-            for feature, entry in self.input_entries.items()
-        }
-        
-        # Convert input features to DataFrame for prediction
-        try:
-            input_df: pd.DataFrame = pd.DataFrame([input_features])
-            input_df = input_df.apply(pd.to_numeric, errors='coerce')
-        except Exception as e:
-            messagebox.showerror("Error", f"Invalid input: {e}")
-            return
-        
-        # Use the Predictor class for prediction
-        model = self.models[city]
-        predictor: Predictor = Predictor(model)
-        prediction: np.ndarray = predictor.predict(input_df)
-        
-        predicted_price: float = prediction[0] if prediction.size > 0 else 0
-        text = (f"Predicted Price: ${predicted_price:.2f}")
-        self.prediction_label.config(text=text)
 
+        feature_order = [
+            'latitude',
+            'longitude', 
+            'accommodates', 
+            'room_type_encoded', 
+            'bathrooms',
+            'review_scores_rating', 
+            'availability_365', 
+            'has_availability', 
+            'beds',
+            'neighbourhood_cleansed_encoded', 
+            'availability_30', 
+            'review_scores_cleanliness',
+            'reviews_per_month', 
+            'calculated_host_listings_count_entire_homes',
+            'number_of_reviews_ltm', 
+            'availability_90'
+        ]
+
+        # Prepare a dictionary with the current input values or their defaults
+        input_values = {feature: self.get_feature_value(feature, city) for feature in feature_order}
+
+        # Convert dictionary to DataFrame with columns in the specified order
+        input_df = pd.DataFrame([input_values], columns=feature_order)
+
+        try:
+            model = self.models[city]
+            prediction = model.predict(input_df)
+            predicted_price = prediction[0]
+            self.prediction_label.config(text=f"Predicted Price: ${predicted_price:.2f}")
+        except Exception as e:
+            messagebox.showerror("Prediction Error", str(e))
+
+    def get_feature_value(self, feature, city):
+        """
+        Returns the value for a given feature. If the feature is provided by the user,
+        it returns that value; otherwise, it returns the mean value from the training data.
+        """
+        if feature in ['latitude', 'longitude']:
+            # Special handling for 'address' conversion to 'latitude' and 'longitude'
+            address = self.input_entries.get('address').get() if 'address' in self.input_entries else None
+            coordinates = Utilities.get_coordinates(address) if address else None
+            return coordinates[0 if feature == 'latitude' else 1] if coordinates else None
+        elif feature in self.input_entries:
+            # Return user-provided value, converting to float
+            return float(self.input_entries[feature].get())
+        else:
+            # Return mean value from the preprocessed data for the city
+            return self.preprocessed_data[city][feature].mean()
 
     def on_predict_button_click(self) -> None:
         """
@@ -296,6 +318,9 @@ class GUI:
             "to get the estimated rental price."
         )
         messagebox.showinfo("About", about_text)
+
+    def show_team(self) -> None:
+        messagebox.showinfo("Team:", "Przemyslaw Tutur")
 
     @staticmethod
     def run_gui(data_paths):
