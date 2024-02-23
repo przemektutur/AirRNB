@@ -130,12 +130,12 @@ the virtual environment rather than the global ones.
 
 XGBRegressor for Barcelona
 
-![XGBRegressor for Barcelona](ML001.png)
+![XGBRegressor for Barcelona](pictures/ML001.png)
 
 XGBRegressor for London
 
-![XGBRegressor for London](ML002.png)
+![XGBRegressor for London](pictures/ML002.png)
 
 Help
 
-![Help](ML003.png)
+![Help](pictures/ML003.png)
