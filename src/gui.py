@@ -19,8 +19,12 @@ class GUI:
         self.root = root
         self.data_paths = data_paths
         self.utilities = Utilities()
-        self.preprocessed_data = {}
-        self.models = {}
+        self.selected_data_var = tk.StringVar(self.root)
+        self.input_entries = {}
+        self.preprocessed_data: dict[str, pd.DataFrame] = {}
+        self.models: dict[str, XGBRegressor] = {}
+
+        # Initiate methods
         self.setup_ui()
         self.preprocess_data()
 
