@@ -109,9 +109,22 @@ class GUI:
         # Show about dialog
         pass
 
-    def show_team(self):
-        # Show team info dialog
-        pass
+    def show_about(self) -> None:
+        """
+        Displays an informational dialog about the application.
+        """
+        about_text: str = (
+            "Application predicts rental prices based on features like "
+            "location, room type, accommodations, and more. \n\n"
+            "Room type encoded:\n"
+            "3 - Shared room\n"
+            "2 - Private room\n"
+            "1 - Hotel room\n"
+            "0 - Entire home/apt\n\n"
+            "Select a city, input the required features, and click 'Predict Price' "
+            "to get the estimated rental price."
+        )
+        messagebox.showinfo("About", about_text)
 
     @staticmethod
     def run_gui(data_paths):
