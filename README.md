@@ -7,3 +7,9 @@ Data is taken from AirRNB.
 
 ### SORRY FOR NOT KEEPING OOP AND SPAGHETHI CODE - FAST CODING ;)
 ### IF YOU WOULD LIKE TO HAVE IT MADE AS OOP - PLEASE LET ME KNOW
+
+## SCREENSHOTS
+
+![XGBRegressor for Barcelona](ML001.png)
+![XGBRegressor for London](ML002.png)
+![Help](ML003.png)
