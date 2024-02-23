@@ -15,7 +15,21 @@ from .utilities import Utilities
 class GUI:
     """Class GUI to handle graphical user interface."""
 
-    def __init__(self, root: tk.Tk, data_paths: dict):
+    def __init__(self, root: tk.Tk, data_paths: dict) -> None:
+        """
+        Initialize the GUI application with the root window and data paths.
+
+        Parameters
+        ----------
+        root : tk.Tk
+            The root Tkinter window.
+        data_paths : dict
+            A dictionary mapping city names to their respective dataset paths.
+
+        Returns
+        -------
+        None
+        """
         self.root = root
         self.data_paths = data_paths
         self.utilities = Utilities()
@@ -29,6 +43,20 @@ class GUI:
         self.preprocess_data()
 
     def setup_ui(self) -> None:
+        """
+        Sets up the user interface for the application.
+
+        This method initializes the main window and its widgets, including menus,
+        labels, entries, and buttons for interacting with the application.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         self.root.title("Predictor")
         self.root.geometry("300x450")
 
@@ -90,6 +118,21 @@ class GUI:
         self.prediction_label.pack(pady=10)
 
     def preprocess_data(self):
+        """
+        Preprocesses the data for each city specified in `data_paths`.
+
+        It loads the data from the provided paths, applies preprocessing steps,
+        and stores the preprocessed data in `self.preprocessed_data`. It also
+        initiates model training for each city's dataset.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         for city, path in self.data_paths.items():
             df = pd.read_csv(path)
             preprocessor = DataPreprocessor(df)
@@ -100,12 +143,21 @@ class GUI:
 
     def train_model(self, city: str) -> None:
         """
-        Trains a model for a specific city using preprocessed data.
+        Trains a machine learning model for the specified city.
+
+        Extracts the preprocessed dataset for the city from 
+        `self.preprocessed_data`, identifies features and target 
+        variable, trains the model using the ModelTrainer class, 
+        and stores the trained model in `self.models`.
 
         Parameters
         ----------
         city : str
             The name of the city for which to train the model.
+
+        Returns
+        -------
+        None
         """
         # Extract the preprocessed dataset for the specified city
         data: pd.DataFrame = self.preprocessed_data[city]
@@ -142,6 +194,18 @@ class GUI:
     def predict_price(self) -> None:
         """
         Predicts the rental price based on user inputs and the selected city.
+
+        Gathers input features from the GUI, converts them to a DataFrame,
+        and uses the trained model for the selected city to make a prediction.
+        Displays the predicted price in the GUI.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         """
         city: str = self.selected_data_var.get()
         if city not in self.models:
@@ -177,9 +241,19 @@ class GUI:
 
     def on_predict_button_click(self) -> None:
         """
-        Handles the event triggered by clicking the 'Predict Price' button.
-        This method validates the inputs and calls the predict_price method
-        to perform the prediction.
+        Handles the 'Predict Price' button click event.
+
+        Validates user inputs, calls the `predict_price` method to perform the
+        prediction if inputs are valid, and handles any exceptions that occur
+        during prediction.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         """
         is_valid_input: bool = True
         for feature, entry in self.input_entries.items():
@@ -198,6 +272,17 @@ class GUI:
     def show_about(self) -> None:
         """
         Displays an informational dialog about the application.
+
+        Shows details about how to use the application, the meaning of different
+        room types, and other relevant information to the user.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         """
         about_text: str = (
             "Application predicts rental prices based on features like "
