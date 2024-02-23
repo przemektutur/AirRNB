@@ -64,12 +64,12 @@ class GUI:
         help_menu: tk.Menu = tk.Menu(self.root)
         self.root.config(menu=help_menu)
 
-        # Create the 'Legend' submenu
+        # Create the "Legend" submenu
         legend_submenu: tk.Menu = tk.Menu(help_menu, tearoff=0)
         help_menu.add_cascade(label="Legend", menu=legend_submenu)
         legend_submenu.add_command(label="Help", command=self.show_about)
 
-        # Create the 'Team' submenu
+        # Create the "Team" submenu
         team_submenu: tk.Menu = tk.Menu(help_menu, tearoff=0)
         help_menu.add_cascade(label="Team", menu=team_submenu)
         team_submenu.add_command(label="About", command=self.show_team)
@@ -90,10 +90,10 @@ class GUI:
 
         # Labels and Entry Widgets for Selected Features
         selected_features: list = [
-            'accommodates', 
-            'room_type_encoded', 
-            'bathrooms', 
-            'address',
+            "accommodates", 
+            "room_type_encoded", 
+            "bathrooms", 
+            "address",
         ]
         for feature in selected_features:
             label: tk.Label = tk.Label(
@@ -123,7 +123,7 @@ class GUI:
 
         It loads the data from the provided paths, applies preprocessing steps,
         and stores the preprocessed data in `self.preprocessed_data`. It also
-        initiates model training for each city's dataset.
+        initiates model training for each city"s dataset.
 
         Parameters
         ----------
@@ -162,29 +162,29 @@ class GUI:
         # Extract the preprocessed dataset for the specified city
         data: pd.DataFrame = self.preprocessed_data[city] 
 
-        data['has_availability'] = data['has_availability'].map(
+        data["has_availability"] = data["has_availability"].map(
             {True: 1, False: 0}
         )
 
         features: list[str] = [
-            'latitude',
-            'longitude',
-            'accommodates',
-            'room_type_encoded',
-            'bathrooms',
-            'review_scores_rating',
-            'availability_365',
-            'has_availability',
-            'beds',
-            'neighbourhood_cleansed_encoded',
-            'availability_30',
-            'review_scores_cleanliness',
-            'reviews_per_month',
-            'calculated_host_listings_count_entire_homes',
-            'number_of_reviews_ltm',
-            'availability_90'
+            "latitude",
+            "longitude",
+            "accommodates",
+            "room_type_encoded",
+            "bathrooms",
+            "review_scores_rating",
+            "availability_365",
+            "has_availability",
+            "beds",
+            "neighbourhood_cleansed_encoded",
+            "availability_30",
+            "review_scores_cleanliness",
+            "reviews_per_month",
+            "calculated_host_listings_count_entire_homes",
+            "number_of_reviews_ltm",
+            "availability_90"
         ]  
-        target: str = 'price'  
+        target: str = "price"  
 
         data[target] = data[target].replace([np.inf, -np.inf], np.nan)
         data.dropna(subset=[target], inplace=True)
@@ -212,22 +212,22 @@ class GUI:
             return
 
         feature_order = [
-            'latitude',
-            'longitude', 
-            'accommodates', 
-            'room_type_encoded', 
-            'bathrooms',
-            'review_scores_rating', 
-            'availability_365', 
-            'has_availability', 
-            'beds',
-            'neighbourhood_cleansed_encoded', 
-            'availability_30', 
-            'review_scores_cleanliness',
-            'reviews_per_month', 
-            'calculated_host_listings_count_entire_homes',
-            'number_of_reviews_ltm', 
-            'availability_90'
+            "latitude",
+            "longitude", 
+            "accommodates", 
+            "room_type_encoded", 
+            "bathrooms",
+            "review_scores_rating", 
+            "availability_365", 
+            "has_availability", 
+            "beds",
+            "neighbourhood_cleansed_encoded", 
+            "availability_30", 
+            "review_scores_cleanliness",
+            "reviews_per_month", 
+            "calculated_host_listings_count_entire_homes",
+            "number_of_reviews_ltm", 
+            "availability_90"
         ]
 
         # Prepare a dictionary with the current input values or their defaults
@@ -249,11 +249,11 @@ class GUI:
         Returns the value for a given feature. If the feature is provided by the user,
         it returns that value; otherwise, it returns the mean value from the training data.
         """
-        if feature in ['latitude', 'longitude']:
-            # Special handling for 'address' conversion to 'latitude' and 'longitude'
-            address = self.input_entries.get('address').get() if 'address' in self.input_entries else None
+        if feature in ["latitude", "longitude"]:
+            # Special handling for "address" conversion to "latitude" and "longitude"
+            address = self.input_entries.get("address").get() if "address" in self.input_entries else None
             coordinates = Utilities.get_coordinates(address) if address else None
-            return coordinates[0 if feature == 'latitude' else 1] if coordinates else None
+            return coordinates[0 if feature == "latitude" else 1] if coordinates else None
         elif feature in self.input_entries:
             # Return user-provided value, converting to float
             return float(self.input_entries[feature].get())
@@ -263,7 +263,7 @@ class GUI:
 
     def on_predict_button_click(self) -> None:
         """
-        Handles the 'Predict Price' button click event.
+        Handles the "Predict Price" button click event.
 
         Validates user inputs, calls the `predict_price` method to perform the
         prediction if inputs are valid, and handles any exceptions that occur
@@ -314,7 +314,7 @@ class GUI:
             "2 - Private room\n"
             "1 - Hotel room\n"
             "0 - Entire home/apt\n\n"
-            "Select a city, input the required features, and click 'Predict Price' "
+            "Select a city, input the required features, and click "Predict Price" "
             "to get the estimated rental price."
         )
         messagebox.showinfo("About", about_text)
