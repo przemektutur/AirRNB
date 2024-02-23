@@ -21,9 +21,66 @@ class GUI:
         self.setup_ui()
         self.preprocess_data()
 
-    def setup_ui(self):
-        # Setup UI elements here (similar to the existing setup in main.py)
-        pass
+    def setup_ui(self) -> None:
+        self.root.title("Predictor")
+        self.root.geometry("300x450")
+
+        # Menu
+        help_menu: tk.Menu = tk.Menu(self.root)
+        self.root.config(menu=help_menu)
+
+        # Create the 'Legend' submenu
+        legend_submenu: tk.Menu = tk.Menu(help_menu, tearoff=0)
+        help_menu.add_cascade(label="Legend", menu=legend_submenu)
+        legend_submenu.add_command(label="Help", command=self.show_about)
+
+        # Create the 'Team' submenu
+        team_submenu: tk.Menu = tk.Menu(help_menu, tearoff=0)
+        help_menu.add_cascade(label="Team", menu=team_submenu)
+        team_submenu.add_command(label="About", command=self.show_team)
+
+        # Dropdown menu for selecting dataset
+        data_dropdown_label: tk.Label = tk.Label(
+            self.root, 
+            text="Select City:"
+        )
+        data_dropdown_label.pack(pady=5)
+
+        self.data_dropdown: ttk.Combobox = ttk.Combobox(
+            self.root,
+            textvariable=self.selected_data_var,
+            values=list(self.data_paths.keys())
+        )
+        self.data_dropdown.pack(pady=5)
+
+        # Labels and Entry Widgets for Selected Features
+        selected_features: list = [
+            'accommodates', 
+            'room_type_encoded', 
+            'bathrooms', 
+            'address',
+        ]
+        for feature in selected_features:
+            label: tk.Label = tk.Label(
+                self.root,
+                text=feature.capitalize() + ":"
+            )
+            label.pack(pady=5)
+            entry: tk.Entry = tk.Entry(self.root)
+            entry.pack(pady=5)
+            self.input_entries[feature] = entry
+
+        # Prediction Button
+        predict_button: tk.Button = tk.Button(
+            self.root,
+            text="Predict Price",
+            command=self.on_predict_button_click
+        )
+        predict_button.pack(pady=10)
+
+        # Prediction Result Label
+        self.prediction_label: tk.Label = tk.Label(self.root, text="")
+        self.prediction_label.pack(pady=10)
 
     def preprocess_data(self):
         for city, path in self.data_paths.items():
