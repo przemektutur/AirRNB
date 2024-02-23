@@ -10,6 +10,11 @@ Data is taken from AirRNB.
 
 ## SCREENSHOTS
 
+XGBRegressor for Barcelona
 ![XGBRegressor for Barcelona](ML001.png)
+
+XGBRegressor for London
 ![XGBRegressor for London](ML002.png)
+
+Help
 ![Help](ML003.png)
