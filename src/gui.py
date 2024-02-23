@@ -185,7 +185,7 @@ class GUI:
         for feature, entry in self.input_entries.items():
             if not entry.get().strip():
                 msg = f"{feature.capitalize()} is required."
-                tk.messagebox.showerror("Input Error", msh)
+                tk.messagebox.showerror("Input Error", msg)
                 is_valid_input = False
                 break
         if is_valid_input:
