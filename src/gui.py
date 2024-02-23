@@ -314,7 +314,7 @@ class GUI:
             "2 - Private room\n"
             "1 - Hotel room\n"
             "0 - Entire home/apt\n\n"
-            "Select a city, input the required features, and click "Predict Price" "
+            "Select a city, input the form, and click \"Predict Price\" "
             "to get the estimated rental price."
         )
         messagebox.showinfo("About", about_text)
