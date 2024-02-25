@@ -2,19 +2,13 @@
 
 ## QUICKLY PREPARED PROGRAM FOR SHOW RNB PROJECT 
 
-## FOR LODGIFY ;)
-
 Program predicts a price for one night in various location.
 
 Three cities were added for prediction: London, Athens and Barcelona.
 
 Data is taken from AirRNB.
 
-I saw Lodgify is searching for machine learning/deep learning/AI engineer and
-
-as a fast-growing company leading the vacation rental industry with innovative 
-
-software... I thought to prepare in the morning short program which will 
+I thought to prepare in the morning short program which will 
 
 calculate rental prices using ML. I didn't have much time before push kids to
 
