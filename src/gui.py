@@ -48,8 +48,9 @@ class GUI:
         """
         Sets up the user interface for the application.
 
-        This method initializes the main window and its widgets, including menus,
-        labels, entries, and buttons for interacting with the application.
+        This method initializes the main window and its widgets, including
+        menus, labels, entries, and buttons for interacting with the
+        application.
 
         Parameters
         ----------
@@ -78,7 +79,7 @@ class GUI:
 
         # Dropdown menu for selecting dataset
         data_dropdown_label: tk.Label = tk.Label(
-            self.root, 
+            self.root,
             text="Select City:"
         )
         data_dropdown_label.pack(pady=5)
@@ -92,9 +93,9 @@ class GUI:
 
         # Labels and Entry Widgets for Selected Features
         selected_features: list = [
-            "accommodates", 
-            "room_type_encoded", 
-            "bathrooms", 
+            "accommodates",
+            "room_type_encoded",
+            "bathrooms",
             "address",
         ]
         for feature in selected_features:
@@ -114,7 +115,7 @@ class GUI:
             command=self.on_predict_button_click
         )
         predict_button.pack(pady=10)
-        
+
         # Prediction Result Label
         self.prediction_label: tk.Label = tk.Label(self.root, text="")
         self.prediction_label.pack(pady=10)
@@ -147,9 +148,9 @@ class GUI:
         """
         Trains a machine learning model for the specified city.
 
-        Extracts the preprocessed dataset for the city from 
-        `self.preprocessed_data`, identifies features and target 
-        variable, trains the model using the ModelTrainer class, 
+        Extracts the preprocessed dataset for the city from
+        `self.preprocessed_data`, identifies features and target
+        variable, trains the model using the ModelTrainer class,
         and stores the trained model in `self.models`.
 
         Parameters
@@ -162,7 +163,7 @@ class GUI:
         None
         """
         # Extract the preprocessed dataset for the specified city
-        data: pd.DataFrame = self.preprocessed_data[city] 
+        data: pd.DataFrame = self.preprocessed_data[city]
 
         data["has_availability"] = data["has_availability"].map(
             {True: 1, False: 0}
@@ -185,8 +186,8 @@ class GUI:
             "calculated_host_listings_count_entire_homes",
             "number_of_reviews_ltm",
             "availability_90"
-        ]  
-        target: str = "price"  
+        ]
+        target: str = "price"
 
         data[target] = data[target].replace([np.inf, -np.inf], np.nan)
         data.dropna(subset=[target], inplace=True)
@@ -215,25 +216,27 @@ class GUI:
 
         feature_order = [
             "latitude",
-            "longitude", 
-            "accommodates", 
-            "room_type_encoded", 
+            "longitude",
+            "accommodates",
+            "room_type_encoded",
             "bathrooms",
-            "review_scores_rating", 
-            "availability_365", 
-            "has_availability", 
+            "review_scores_rating",
+            "availability_365",
+            "has_availability",
             "beds",
-            "neighbourhood_cleansed_encoded", 
-            "availability_30", 
+            "neighbourhood_cleansed_encoded",
+            "availability_30",
             "review_scores_cleanliness",
-            "reviews_per_month", 
+            "reviews_per_month",
             "calculated_host_listings_count_entire_homes",
-            "number_of_reviews_ltm", 
+            "number_of_reviews_ltm",
             "availability_90"
         ]
 
         # Prepare a dictionary with the current input values or their defaults
-        input_values = {feature: self.get_feature_value(feature, city) for feature in feature_order}
+        input_values = {feature: self.get_feature_value(
+            feature, city
+        ) for feature in feature_order}
 
         # Convert dictionary to DataFrame with columns in the specified order
         input_df = pd.DataFrame([input_values], columns=feature_order)
@@ -242,20 +245,34 @@ class GUI:
             model = self.models[city]
             prediction = model.predict(input_df)
             predicted_price = prediction[0]
-            self.prediction_label.config(text=f"Predicted Price: ${predicted_price:.2f}")
+            text = f"Predicted Price: ${predicted_price:.2f}"
+            self.prediction_label.config(text=text)
         except Exception as e:
             messagebox.showerror("Prediction Error", str(e))
 
     def get_feature_value(self, feature, city):
         """
-        Returns the value for a given feature. If the feature is provided by the user,
-        it returns that value; otherwise, it returns the mean value from the training data.
+        Returns the value for a given feature. If the feature is provided by
+        the user, it returns that value; otherwise, it returns the mean value
+        from the training data.
         """
         if feature in ["latitude", "longitude"]:
-            # Special handling for "address" conversion to "latitude" and "longitude"
-            address = self.input_entries.get("address").get() if "address" in self.input_entries else None
-            coordinates = Utilities.get_coordinates(address) if address else None
-            return coordinates[0 if feature == "latitude" else 1] if coordinates else None
+            # Handling "address" conversion to "latitude" and "longitude"
+            address = (
+                self.input_entries.get("address").get()
+                if "address" in self.input_entries
+                else None
+            )
+            coordinates = (
+                Utilities.get_coordinates(address)
+                if address
+                else None
+            )
+            if coordinates:
+                index = 0 if feature == "latitude" else 1
+                return coordinates[index]
+            else:
+                return None
         elif feature in self.input_entries:
             # Return user-provided value, converting to float
             return float(self.input_entries[feature].get())

@@ -20,7 +20,7 @@ class DataPreprocessor:
 
     def preprocess(self) -> None:
         """
-        Performs preprocessing on the dataset to clean and prepare data 
+        Performs preprocessing on the dataset to clean and prepare data
         for further analysis or modeling.
 
         This includes:
@@ -32,14 +32,14 @@ class DataPreprocessor:
         dataL: pd.DataFrame = self.data
         dataL.drop(
             [
-                "description", 
-                "neighbourhood_group_cleansed", 
-                "license", 
-                "calendar_updated", 
-                "bedrooms", 
+                "description",
+                "neighbourhood_group_cleansed",
+                "license",
+                "calendar_updated",
+                "bedrooms",
                 "amenities"
-            ], 
-            axis=1, 
+            ],
+            axis=1,
             inplace=True
         )
         dataL["bathrooms"] = dataL["bathrooms_text"].str.extract(
@@ -54,10 +54,10 @@ class DataPreprocessor:
         )
 
         boolean_columns = [
-            "host_is_superhost", 
-            "host_has_profile_pic", 
-            "host_identity_verified", 
-            "has_availability", 
+            "host_is_superhost",
+            "host_has_profile_pic",
+            "host_identity_verified",
+            "has_availability",
             "instant_bookable"
         ]
         for col in boolean_columns:
@@ -68,17 +68,17 @@ class DataPreprocessor:
             dataL[col] = dataL[col].str.rstrip("%").astype("float") / 100.0
 
         date_columns = [
-            "last_scraped", 
-            "host_since", 
-            "calendar_last_scraped", 
-            "first_review", 
+            "last_scraped",
+            "host_since",
+            "calendar_last_scraped",
+            "first_review",
             "last_review"
         ]
         for col in date_columns:
             dataL[col] = pd.to_datetime(dataL[col])
 
         dataL["price"] = dataL["price"].replace(
-            {"\$": "", ",": ""}, 
+            {"\$": "", ",": ""},
             regex=True
         ).astype(float)
 
