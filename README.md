@@ -1,26 +1,91 @@
-# AirRNB
+# Rental Price Prediction
 
-## QUICKLY PREPARED PROGRAM FOR SHOW RNB PROJECT 
+## Project Overview
 
-Program predicts a price for one night in various location.
+This project aims to predict rental prices for short-term accommodations in
 
-Three cities were added for prediction: London, Athens and Barcelona.
+various locations using machine learning. It focuses on three major cities:
 
-Data is taken from AirRNB.
+London, Athens, and Barcelona, with data sourced from AirBnB. Designed as a
 
-I thought to prepare in the morning short program which will 
+quick morning project before family commitments, it evolved into a 
 
-calculate rental prices using ML. I didn't have much time before push kids to
+comprehensive analysis utilizing the XGBoost regression algorithm to forecast
 
-the kindergarten... ;)
+one-night rental prices.
 
-I have checked couple machine learning alghoritms and used XGBoost (regression)
 
-Check 2407-change-into-object-oriented-paradigm branch (you will see git log
+Initially started as a script, the project's codebase underwent significant
 
-- how I've changed script into object oriented program).
+refactoring to adopt an object-oriented programming paradigm, facilitating
 
-(**All the effort took about 5 hours**)
+scalability and maintenance. This transition is documented in the 
+
+'2407-change-into-object-oriented-paradigm' branch, showcasing the iterative 
+
+development process over approximately 5 hours.
+
+## Architecture and Implementation
+
+### Data Preprocessing
+
+Data from AirBnB is preprocessed to prepare it for machine learning models. 
+
+This involves cleaning the data, encoding categorical variables, handling
+
+missing values, and normalizing features to ensure optimal model performance.
+
+### Machine Learning Model
+
+After preprocessing, the project leverages the XGBoost algorithm—a powerful,
+
+efficient, and scalable implementation of gradient boosting—to predict rental
+
+prices. XGBoost was chosen for its performance and ability to handle sparse 
+
+data from AirBnB listings.
+
+### GUI Application
+
+The project features a graphical user interface (GUI) built with Tkinter,
+
+allowing users to select a city, input accommodation features, and predict 
+
+rental prices with a simple click. The GUI makes the application accessible 
+
+to users without a technical background, providing a user-friendly way to 
+
+estimate rental prices.
+
+### Visualization
+
+To offer insights into the data, the application includes a visualization
+
+feature that plots geographical price distributions across the selected cities.
+
+This helps users understand price variations and identify trends related to 
+
+location.
+
+### Object-Oriented Paradigm
+
+The shift to an object-oriented paradigm enhances the project's structure,
+
+making it more modular and easier to extend. This approach encapsulates data
+
+preprocessing, model training, prediction, and visualization functionalities 
+
+within distinct classes, promoting code reuse and maintainability.
+
+## Getting Started
+
+Installation: Instructions on setting up the project environment, including 
+
+required libraries and dependencies.
+
+Usage: How to run the application, including launching the GUI and making 
+
+predictions.
 
 ### 1. Check for Python Installation
 
