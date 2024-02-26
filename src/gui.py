@@ -1,7 +1,12 @@
 """Class GUI."""
+from typing import (
+    Dict,
+    Optional,
+)
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+
 import pandas as pd
 import numpy as np
 from xgboost import XGBRegressor
@@ -14,21 +19,32 @@ from .utilities import Utilities
 
 
 class GUI:
-    """Class GUI to handle graphical user interface."""
+     """
+    A GUI application for predicting rental prices based on various features.
 
-    def __init__(self, root: tk.Tk, data_paths: dict) -> None:
-        """
-        Initialize the GUI application with the root window and data paths.
+    Attributes:
+    -----------
+    root (tk.Tk): The root Tkinter window.
+    data_paths (Dict[str, str]): Dictionary mapping city names to paths.
+    utilities (Utilities): Instance of the Utilities class operations.
+    selected_data_var (tk.StringVar): Tkinter string variable.
+    input_entries (Dict[str, tk.Entry]): Dictionary of Tkinter entry widgets.
+    preprocessed_data (Dict[str, pd.DataFrame]): Preprocessed datasets.
+    models (Dict[str, XGBRegressor]): Trained models for each city.
+    """
 
-        Parameters
-        ----------
-        root : tk.Tk
-            The root Tkinter window.
-        data_paths : dict
-            A dictionary mapping city names to their respective dataset paths.
+    def __init__(self, root: tk.Tk, data_paths: Dict[str, str]) -> None:
+                """
+        Initializes the GUI application.
 
-        Returns
-        -------
+        Parameters:
+        -----------
+        root (tk.Tk): The root Tkinter window.
+        data_paths (Dict[str, str]): A dictionary mapping city names to
+            dataset paths.
+
+        Returns:
+        --------
         None
         """
         self.root = root
@@ -120,7 +136,7 @@ class GUI:
         self.prediction_label: tk.Label = tk.Label(self.root, text="")
         self.prediction_label.pack(pady=10)
 
-    def preprocess_data(self):
+    def preprocess_data(self) -> None:
         """
         Preprocesses the data for each city specified in `data_paths`.
 
@@ -155,8 +171,7 @@ class GUI:
 
         Parameters
         ----------
-        city : str
-            The name of the city for which to train the model.
+        city : str The name of the city for which to train the model.
 
         Returns
         -------
@@ -206,8 +221,17 @@ class GUI:
         """
         Predicts the rental price based on user inputs and the selected city.
 
-        Gathers input features from the GUI, converts them to the correct format,
-        and ensures that the feature order matches exactly what was used during training.
+        Gathers input features from the GUI, converts them to the correct
+        format, and ensures that the feature order matches exactly what
+        was used during training.
+
+        Parameters:
+        -----------
+        None
+
+        Returns:
+        --------
+        None
         """
         city = self.selected_data_var.get()
         if city not in self.models:
@@ -250,11 +274,19 @@ class GUI:
         except Exception as e:
             messagebox.showerror("Prediction Error", str(e))
 
-    def get_feature_value(self, feature, city):
+    def get_feature_value(self, feature: str, city: str) -> Optional[float]:
         """
-        Returns the value for a given feature. If the feature is provided by
-        the user, it returns that value; otherwise, it returns the mean value
-        from the training data.
+        Returns the input value for a given feature. If not provided, returns
+        the mean value from the dataset.
+
+        Parameters:
+        -----------
+        feature (str): The feature for which to get the value.
+        city (str): The selected city for which to predict the price.
+
+        Returns:
+        --------
+        Optional[float]: The input value or mean value for the feature.
         """
         if feature in ["latitude", "longitude"]:
             # Handling "address" conversion to "latitude" and "longitude"
@@ -283,7 +315,6 @@ class GUI:
     def on_predict_button_click(self) -> None:
         """
         Handles the "Predict Price" button click event.
-
         Validates user inputs, calls the `predict_price` method to perform the
         prediction if inputs are valid, and handles any exceptions that occur
         during prediction.
@@ -313,9 +344,8 @@ class GUI:
     def show_about(self) -> None:
         """
         Displays an informational dialog about the application.
-
-        Shows details about how to use the application, the meaning of different
-        room types, and other relevant information to the user.
+        Shows details about how to use the application, the meaning of
+        different room types, and other relevant information to the user.
 
         Parameters
         ----------
@@ -338,7 +368,19 @@ class GUI:
         )
         messagebox.showinfo("About", about_text)
 
-    def plot_data(self):
+    def plot_data(self) -> None:
+        """
+        Plots the data for up to three cities to visualize geographical price
+        distribution.
+
+        Parameters:
+        -----------
+        None
+
+        Returns:
+        --------
+        None
+        """
         cities = list(self.preprocessed_data.keys())[:3]
         if len(cities) == 3:
             data = [self.preprocessed_data[city] for city in cities]
@@ -363,10 +405,32 @@ class GUI:
 
 
     def show_team(self) -> None:
+        """
+        Give information about developers team.
+
+        Parameters:
+        -----------
+        None
+
+        Returns:
+        --------
+        None
+        """
         messagebox.showinfo("Team:", "Przemyslaw Tutur")
 
     @staticmethod
     def run_gui(data_paths):
+        """
+        Initializes and runs the GUI application.
+
+        Parameters:
+        -----------
+        data_paths (Dict[str, str]): Dict mapping city names to dataset paths.
+
+        Returns:
+        --------
+        None
+        """
         root = tk.Tk()
         app = GUI(root, data_paths)
         root.mainloop()
