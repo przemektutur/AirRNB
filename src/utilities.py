@@ -13,14 +13,13 @@ class Utilities:
 
         Parameters
         ----------
-        address: str
-            API Client connector
+        address: API Client connector
 
         Returns
         -------
-        Optional[Tuple[float, float]]
-            A tuple containing the latitude and longitude of the given address,
-            or None if the address cannot be geolocated.
+        Optional[Tuple[float, float]] - a tuple containing the latitude and 
+            longitude of the given address, or None if the address cannot
+            be geolocated.
         """
 
         geolocator = Nominatim(user_agent="geoapiExercises")
