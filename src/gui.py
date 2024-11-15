@@ -107,6 +107,19 @@ class GUI:
         )
         self.data_dropdown.pack(pady=5)
 
+        # Dropdown menu for selecting model type
+        model_dropdown_label = tk.Label(self.root, text="Select Model:")
+        model_dropdown_label.pack(pady=5)
+
+        self.model_var = tk.StringVar(self.root)
+        self.model_dropdown = ttk.Combobox(
+            self.root,
+            textvariable=self.model_var,
+            values=["XGBoost", "Random Forest"]
+        )
+        self.model_dropdown.pack(pady=5)
+        self.model_var.set("XGBoost")  # Default value
+
         # Labels and Entry Widgets for Selected Features
         selected_features: list = [
             "accommodates",
@@ -210,10 +223,15 @@ class GUI:
         # Splitting the data into features (X) and target (y)
         X: pd.DataFrame = data[features]
         y: pd.Series = data[target]
+
+        # Choose model type based on dropdown values provided by user
+        # When implementing more algorithms - add here elif statements
+        model_type = "xgb" if self.model_var.get() == "XGBoost" else "rf"
+
         # Initializing the ModelTrainer with the dataset
         trainer: ModelTrainer = ModelTrainer(X, y)
         # Training the model
-        model: XGBRegressor = trainer.train_model()
+        model = trainer.train_model()
         # Storing the trained model for later use
         self.models[city] = model
 
