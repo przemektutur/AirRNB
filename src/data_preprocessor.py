@@ -13,8 +13,11 @@ class DataPreprocessor:
 
         Parameters
         ----------
-        data : pd.DataFrame
-            The dataset to preprocess.
+        data : pd.DataFrame - the dataset to preprocess.
+
+        Returns
+        -------
+        None
         """
         self.data: pd.DataFrame = data
 
@@ -28,6 +31,10 @@ class DataPreprocessor:
         - Extracting numeric data from text
         - Filling missing values
         - Encoding categorical variables
+
+        Returns
+        -------
+        None
         """
         dataL: pd.DataFrame = self.data
         dataL.drop(
@@ -93,10 +100,11 @@ class DataPreprocessor:
         """
         Returns the preprocessed dataset.
 
+        This method takes no arguments.
+
         Returns
         -------
-        pd.DataFrame
-            The preprocessed dataset ready for analysis or modeling.
+        pd.DataFrame - The preprocessed dataset ready for analysis or modeling.
+
         """
         return self.data
-

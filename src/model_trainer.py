@@ -15,10 +15,8 @@ class ModelTrainer:
 
         Parameters
         ----------
-        X : pd.DataFrame
-            The input features for training the model.
-        y : pd.Series
-            The target variable for training the model.
+        X: pd.DataFrame - the input features for training the model.
+        y: pd.Series - the target variable for training the model.
 
         Returns
         -------
@@ -35,10 +33,11 @@ class ModelTrainer:
         """
         Train the XGBoost model with the provided training data.
 
+        The method takes no arguments.
+
         Returns
         -------
-        XGBRegressor
-            The trained XGBoost model.
+        XGBRegressor - the trained XGBoost model.
         """
         self.model.fit(self.X, self.y)
         return self.model
