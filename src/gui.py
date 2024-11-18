@@ -166,12 +166,25 @@ class GUI:
         None
         """
         for city, path in self.data_paths.items():
+            local_path = f"data/{city.lower()}.csv"
+            try:
+                df = pd.read_csv(local_path)
+                preprocessor = DataPreprocessor(df)
+                preprocessor.preprocess()
+                self.preprocessed_data[city] = preprocessor.get_data()
+                # Train model for each city
+                self.train_model(city)
+            except FileNotFoundError:
+                print(f"File {local_path} does not exists. Omitted {city}.")
+        """
+        for city, path in self.data_paths.items():
             df = pd.read_csv(path)
             preprocessor = DataPreprocessor(df)
             preprocessor.preprocess()
             self.preprocessed_data[city] = preprocessor.get_data()
             # Train model for each city
             self.train_model(city)
+        """
 
     def train_model(self, city: str) -> None:
         """
