@@ -55,12 +55,21 @@ class DataDownloader:
 
         return results
 
-# Example usage
+# Usage
 if __name__ == "__main__":
     urls = {
-        "London": "http://data.insideairbnb.com/united-kingdom/england/london/2023-12-10/data/listings.csv.gz",
-        "Athens": "http://data.insideairbnb.com/greece/attica/athens/2023-12-25/data/listings.csv.gz",
-        "Barcelona": "http://data.insideairbnb.com/spain/catalonia/barcelona/2023-12-13/data/listings.csv.gz"
+        "London": (
+            "http://data.insideairbnb.com/united-kingdom/england/london/"
+            "2023-12-10/data/listings.csv.gz"
+        ),
+        "Athens": (
+            "http://data.insideairbnb.com/greece/attica/athens/"
+            "2023-12-25/data/listings.csv.gz"
+        ),
+        "Barcelona": (
+            "http://data.insideairbnb.com/spain/catalonia/barcelona/"
+            "2023-12-13/data/listings.csv.gz"
+        ),
     }
     downloader = DataDownloader(urls)
     data = downloader.download_data()
