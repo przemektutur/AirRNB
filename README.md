@@ -77,6 +77,22 @@ preprocessing, model training, prediction, and visualization functionalities
 
 within distinct classes, promoting code reuse and maintainability.
 
+
+AirRNB/
+├── data/
+├── src/
+│   ├── data_preprocessor.py
+│   ├── data_downloader.py
+│   ├── gui.py
+│   ├── model_trainer.py
+│   ├── predictor.py
+│   └── utilities.py
+├── main.py
+├── README.md
+├── requirements.txt   # Plik z zależnościami
+└── install.sh         # Skrypt instalacyjny
+
+
 ## Getting Started
 
 Installation: Instructions on setting up the project environment, including 
@@ -110,7 +126,7 @@ sudo apt update
 sudo apt install python3
 ```
 
-### 2. Install Required Libraries
+### 2. Install Required Libraries - deprecated ;) (read point below)
 
 Application requires several libraries, such as `pandas`, `numpy`, `xgboost`, 
 
@@ -130,6 +146,14 @@ on Ubuntu, you can install it with:
 
 ```bash
 sudo apt-get install python3-tk
+```
+
+### 2A. Install Required Libraries - new:
+
+Ta-da! ;D
+
+```bash
+bash install.sh
 ```
 
 ### 3. Running Application
